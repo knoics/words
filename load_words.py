@@ -10,8 +10,8 @@ def read_words(file_path):
             line = f.readline()
             if not line:
                 break
-            items = line.split(',')
-            assert len(items) == 4, 'expected 4 items, having %s' % len(items)
+            items = line.split('|')
+            assert len(items) == 4, 'expected 4 items, having %s for %s' % (len(items), line)
             yield items
     
 cred=credentials.Certificate('./dingn-193716-firebase-adminsdk-xhr2d-dfb86f7040.json')
@@ -19,7 +19,6 @@ app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 user = auth.get_user_by_email('ligangwangs@gmail.com')
 uid = user.uid
-print(uid)
 
 for items in read_words(r'./word_numbers.txt'):
     doc_ref = db.collection(u'words').document(items[1])
